@@ -1,0 +1,39 @@
+seed: 0
+run_dir: runs/stage8
+data:
+  name: synthetic
+  root: data/raw/LJSpeech-1.1
+  sample_rate: 24000
+  segment_seconds: 3.0
+  batch_size: 2
+  num_workers: 0
+  max_items: null
+  synthetic_items: 256
+vae:
+  ckpt: runs/stage6/model.pt
+  base_channels: 24
+  channel_mults: [2, 4, 4, 8]
+  strides: [4, 8, 8, 8]
+  latent_dim: 64
+text:
+  model_name: google/umt5-base
+  freeze: true
+  refine_depth: 2
+  refine_kernel: 7
+dit:
+  patch_size: 4
+  dim: 512
+  depth: 8
+  heads: 8
+  mlp_ratio: 4.0
+  time_dim: 256
+optim:
+  lr: 2.0e-4
+train:
+  max_steps: 2000
+  log_every: 50
+  sample_every: 500
+  grad_clip: 1.0
+sample:
+  nfe: 16
+  prompt: "hello world this is a test of the text conditioned diffusion transformer"

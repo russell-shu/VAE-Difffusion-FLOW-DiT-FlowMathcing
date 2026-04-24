@@ -1,0 +1,25 @@
+seed: 0
+run_dir: runs/stage2
+data:
+  root: data/mnist
+  batch_size: 128
+  num_workers: 0
+model:
+  base_channels: 48
+  time_dim: 128
+schedule:
+  num_steps: 1000
+  beta_start: 1.0e-4
+  beta_end: 2.0e-2
+  type: linear
+optim:
+  lr: 2.0e-4
+train:
+  max_steps: 4000
+  log_every: 100
+  val_every: 1000
+  sample_every: 1000
+  grad_clip: 1.0
+sample:
+  num: 64
+  sample_steps: 200

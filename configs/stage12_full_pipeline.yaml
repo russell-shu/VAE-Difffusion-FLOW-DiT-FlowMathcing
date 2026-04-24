@@ -1,0 +1,57 @@
+seed: 0
+run_dir: runs/stage12
+data:
+  name: synthetic
+  root: data/raw/LJSpeech-1.1
+  sample_rate: 24000
+  segment_seconds: 3.0
+  batch_size: 2
+  num_workers: 0
+  max_items: null
+  synthetic_items: 256
+vae:
+  ckpt: runs/stage6/model.pt
+  base_channels: 24
+  channel_mults: [2, 4, 4, 8]
+  strides: [4, 8, 8, 8]
+  latent_dim: 64
+text:
+  model_name: google/umt5-base
+  freeze: true
+  refine_depth: 2
+  refine_kernel: 7
+mask:
+  min_gen_frac: 0.35
+  max_gen_frac: 0.65
+  cfg_drop_prob: 0.1
+dit:
+  patch_size: 4
+  dim: 512
+  depth: 8
+  heads: 8
+  mlp_ratio: 4.0
+  time_dim: 256
+repa:
+  model_name: facebook/hubert-large-ls960-ft
+  target_sr: 16000
+  layer: 8
+  dit_layer: 7
+  weight: 0.1
+solver:
+  nfe: 16
+  fix_mismatch: true
+  drop_noisy_prompt_in_uncond: true
+apg:
+  alpha: 4.0
+  eta: 0.5
+  beta: -0.3
+sample:
+  prompt: "full pipeline: VAE latent + DiT CFM + APG + REPA"
+optim:
+  lr: 2.0e-4
+train:
+  max_steps: 2500
+  log_every: 50
+  sample_every: 500
+  eval_every: 500
+  grad_clip: 1.0
